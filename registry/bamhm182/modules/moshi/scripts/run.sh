@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # Convert templated variables to shell variables
-export LOG_PATH=${LOG_PATH:-/tmp/moshi.log}
+export LOG_PATH=$${LOG_PATH:-/tmp/moshi.log}
 
 # Set Moshi variables and helpers
 export BOLD='\033[0;1m'
@@ -12,14 +12,14 @@ export INSTALL_DIR="$HOME/.local/bin"
 MOSHI_HOOK() { "$HOME/.local/bin/moshi-hook" "$@"; }
 
 case ":$PATH:" in
-  *":${INSTALL_DIR}:"*) ;;
+  *":$INSTALL_DIR:"*) ;;
   *)
-    printf 'WARNING: %s is not in your PATH.\n' "${INSTALL_DIR}" >&2
-    printf 'Add it with: export PATH="$PATH:%s"\n\n' "${INSTALL_DIR}" >&2
+    printf 'WARNING: %s is not in your PATH.\n' "$INSTALL_DIR" >&2
+    printf 'Add it with: export PATH="$PATH:%s"\n\n' "$INSTALL_DIR" >&2
     ;;
 esac
 
-export PATH="${PATH}:${INSTALL_DIR}"
+export PATH="$PATH:$INSTALL_DIR"
 
 install_package() {
   pkg="$1"
@@ -105,7 +105,7 @@ printf "🥳 Installation complete!\n\n"
 
 printf "👷 Starting Moshi in background...\n\n"
 
-if [ ! -f "${HOME}/.config/moshi/config.toml" ]; then
+if [ ! -f "$HOME/.config/moshi/config.toml" ]; then
   MOSHI_HOOK set usage-collection off > /dev/null 2>&1
   MOSHI_HOOK set scan-ports none > /dev/null 2>&1
   MOSHI_HOOK set always-on-discovery off > /dev/null 2>&1
@@ -116,4 +116,4 @@ if ! pgrep -f "moshi-hook serve" >/dev/null; then
   setsid nohup MOSHI_HOOK serve >> "$LOG_PATH" 2>&1 < /dev/null &
 fi
 
-printf "check logs at %s\n\n" "${LOG_PATH}"
+printf "check logs at %s\n\n" "$LOG_PATH"
