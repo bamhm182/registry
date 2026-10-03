@@ -25,7 +25,7 @@ install_package() {
   # Check if a command exists, if not, install the package.
   # $2 is the command provided if the package name is not a command.
   pkg="$1"
-  cmd="${2:-$pkg}"
+  cmd="$${2:-$pkg}"
 
   if [ -z "$pkg" ]; then
     printf 'usage: install_package <package>\n' >&2
