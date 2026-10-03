@@ -38,6 +38,18 @@ variable "log_path" {
   default     = "/tmp/moshi.log"
 }
 
+variable "port" {
+  type        = number
+  description = "Moshi test port"
+  default     = 12345
+}
+
+variable "order" {
+  type        = number
+  description = "The order determines the position of app in the UI presentation. The lowest order is shown first and apps with equal order are sorted by name (ascending order)."
+  default     = null
+}
+
 resource "coder_script" "moshi" {
   agent_id     = var.agent_id
   display_name = "Module Name"
