@@ -10,21 +10,7 @@ terraform {
 }
 
 locals {
-  # A built-in icon like "/icon/code.svg" or a full URL of icon
-  icon_url = "https://raw.githubusercontent.com/coder/coder/main/site/static/icon/code.svg"
-  # a map of all possible values
-  options = {
-    "Option 1" = {
-      "name"  = "Option 1",
-      "value" = "1"
-      "icon"  = "/emojis/1.png"
-    }
-    "Option 2" = {
-      "name"  = "Option 2",
-      "value" = "2"
-      "icon"  = "/emojis/2.png"
-    }
-  }
+  icon_url = "/emojis/1f43e.png"
 }
 
 variable "agent_id" {
@@ -41,7 +27,7 @@ variable "log_path" {
 variable "port" {
   type        = number
   description = "Moshi test port"
-  default     = 12345
+  default     = 24543
 }
 
 variable "order" {
@@ -52,7 +38,7 @@ variable "order" {
 
 resource "coder_script" "moshi" {
   agent_id     = var.agent_id
-  display_name = "Module Name"
+  display_name = "Moshi"
   icon         = local.icon_url
   script = templatefile("${path.module}/scripts/run.sh", {
     LOG_PATH : var.log_path

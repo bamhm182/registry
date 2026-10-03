@@ -22,14 +22,17 @@ esac
 export PATH="$PATH:$INSTALL_DIR"
 
 install_package() {
+  # Check if a command exists, if not, install the package.
+  # $2 is the command provided if the package name is not a command.
   pkg="$1"
+  cmd="${2:-$pkg}"
 
   if [ -z "$pkg" ]; then
     printf 'usage: install_package <package>\n' >&2
     return 2
   fi
 
-  if command -v "$pkg" >/dev/null 2>&1; then
+  if command -v "$cmd" >/dev/null 2>&1; then
     printf '%s is already installed\n\n' "$pkg"
     return 0
   fi
@@ -78,15 +81,15 @@ fi
 printf "👷 Starting Moshi Dependency install...\n\n"
 
 install_package mosh
-install_package procps
+install_package procps pgrep
 
 if command -v curl >/dev/null 2>&1; then
-  printf "curl is already installed"
+  printf "curl is already installed\n\n"
   fetch_to()    { curl -fsSL "$1" -o "$2"; }
   fetch_quiet() { curl -fsSL "$1" -o "$2" 2>/dev/null; }
   fetch_out()   { curl -fsSL "$1"; }
 elif command -v wget >/dev/null 2>&1; then
-  printf "wget is already installed"
+  printf "wget is already installed\n\n"
   fetch_to()    { wget -qO "$2" "$1"; }
   fetch_quiet() { wget -qO "$2" "$1" 2>/dev/null; }
   fetch_out()   { wget -qO- "$1"; }
