@@ -116,7 +116,7 @@ fi
 
 # Don't start a second copy if one is already running
 if ! pgrep -f "moshi-hook serve" >/dev/null; then
-  setsid nohup $MOSHI_HOOK serve >> "$LOG_PATH" 2>&1 < /dev/null &
+  $MOSHI_HOOK serve >> "$LOG_PATH" 2>&1 &
 fi
 
 printf "check logs at %s\n\n" "$LOG_PATH"
