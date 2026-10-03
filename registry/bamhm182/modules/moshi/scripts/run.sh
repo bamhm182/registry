@@ -9,7 +9,7 @@ export TERM=dumb
 export MOSHI_HOOK_SKIP_FIRST_RUN=1
 export MOSHI_HOOK_SKIP_SERVICE=1
 export INSTALL_DIR="$HOME/.local/bin"
-MOSHI_HOOK() { "$HOME/.local/bin/moshi-hook" "$@"; }
+export MOSHI_HOOK="$HOME/.local/bin/moshi-hook"
 
 case ":$PATH:" in
   *":$INSTALL_DIR:"*) ;;
@@ -109,14 +109,14 @@ printf "🥳 Installation complete!\n\n"
 printf "👷 Starting Moshi in background...\n\n"
 
 if [ ! -f "$HOME/.config/moshi/config.toml" ]; then
-  MOSHI_HOOK set usage-collection off > /dev/null 2>&1
-  MOSHI_HOOK set scan-ports none > /dev/null 2>&1
-  MOSHI_HOOK set always-on-discovery off > /dev/null 2>&1
+  $MOSHI_HOOK set usage-collection off > /dev/null 2>&1
+  $MOSHI_HOOK set scan-ports none > /dev/null 2>&1
+  $MOSHI_HOOK set always-on-discovery off > /dev/null 2>&1
 fi
 
 # Don't start a second copy if one is already running
 if ! pgrep -f "moshi-hook serve" >/dev/null; then
-  setsid nohup MOSHI_HOOK serve >> "$LOG_PATH" 2>&1 < /dev/null &
+  setsid nohup $MOSHI_HOOK serve >> "$LOG_PATH" 2>&1 < /dev/null &
 fi
 
 printf "check logs at %s\n\n" "$LOG_PATH"
