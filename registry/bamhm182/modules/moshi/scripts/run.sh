@@ -80,7 +80,6 @@ else
 fi
 
 install_package mosh
-install_package procps pgrep
 install_package python3
 
 if command -v curl >/dev/null 2>&1; then
