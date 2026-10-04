@@ -24,10 +24,16 @@ variable "log_path" {
   default     = "/tmp/moshi.log"
 }
 
+variable "install_dir" {
+  type        = string
+  description = "The directory moshi-hook and moshi-redirector.py are installed to. Environment variables such as $HOME are expanded on the workspace."
+  default     = "$HOME/.local/bin"
+}
+
 variable "port" {
   type        = number
-  description = "Moshi test port"
-  default     = 24543
+  description = "The port moshi-redirector.py listens on."
+  default     = 47631
 }
 
 variable "order" {
@@ -42,6 +48,11 @@ resource "coder_script" "moshi" {
   icon         = local.icon_url
   script = templatefile("${path.module}/scripts/run.sh", {
     LOG_PATH : var.log_path
+    INSTALL_DIR : var.install_dir
+    REDIRECTOR_B64 : base64encode(templatefile("${path.module}/scripts/moshi-redirector.py", {
+      INSTALL_DIR : var.install_dir
+      PORT : var.port
+    }))
   })
   run_on_start = true
   run_on_stop  = false
